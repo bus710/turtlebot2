@@ -1,29 +1,15 @@
 [package]
 authors = ["bus710"]
 edition = "2021"
-name = "basic"
+name = "turtlebot2-examples"
 version = "0.1.0"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 anyhow = "1.0.52"
 itertools = "0.10.3"
 serialport = "4.0.1"
-# derivative = "2.2.0"
-# num = "0.4.0"
-# num-derive = "0.3.3"
-# num-traits = "0.2.14"
-# thiserror = "1.0.30"
 
 [dependencies.turtlebot2]
 package = "turtlebot2"
-path = "../.."
+path = "../../"
 
-[[bin]]
-name = "basic"
-# path = ""
-
-# crossbeam-channel = "0.5.1"
-# flutter_rust_bridge = "1.13.0"
-# once_cell = "1.9.0"
