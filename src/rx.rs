@@ -6,8 +6,9 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use anyhow::{anyhow, Error, Result};
 use thiserror::Error;
 
-use derivative::*;
+use derivative::*; // Used to simplify the new method
 
+// Variant enum
 #[derive(Debug, FromPrimitive, ToPrimitive)]
 pub enum FeedbackId {
     BasicSensor = 1,

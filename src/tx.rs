@@ -7,6 +7,7 @@ use thiserror::Error;
 
 use derivative::*;
 
+// Variant enum
 pub enum CommandId {
     BaseControl = 1,
     Sound = 3,

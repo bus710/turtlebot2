@@ -2,28 +2,36 @@ use std::thread;
 use std::time::Duration;
 
 use anyhow::Result;
-use serialport::SerialPortInfo;
+use serialport::{SerialPortInfo, SerialPortType};
 
 use turtlebot2::{rx, tx};
 
-const PORT: &str = "/dev/ttyUSB0";
+const SERIAL: &str = "kobuki";
 
 fn main() {
-    let ports = enum_ports().expect("cannot enumerate ports");
-    let mut found_ttyusb0 = false;
+    let ports = enum_ports().expect("Cannot enumerate ports");
+    let mut found_kobuki = false;
+    let mut found_kobuki_port_name = "";
+
     if ports.len() < 1 {
         panic!("No USB serial devices found")
     }
 
     for p in ports.iter() {
-        eprintln!("{:?} - {:?}", p.port_name, p);
-        if p.port_name.contains(PORT) {
-            found_ttyusb0 = true;
-        }
+        match p.port_type.clone() {
+            SerialPortType::UsbPort(info) => {
+                if info.serial_number.unwrap().contains(SERIAL) {
+                    eprintln!("Found port: {:?} - {:?}", p.port_name, p);
+                    found_kobuki = true;
+                    found_kobuki_port_name = &p.port_name;
+                }
+            }
+            _ => found_kobuki = false,
+        };
     }
 
-    if found_ttyusb0 {
-        read_port(String::from(PORT));
+    if found_kobuki {
+        read_port(String::from(found_kobuki_port_name));
     }
 }
 
@@ -33,8 +41,6 @@ fn enum_ports() -> Result<Vec<SerialPortInfo>> {
 }
 
 fn read_port(port_name: String) {
-    eprintln!("{:?}", port_name);
-
     let mut port = serialport::new(port_name, 115200)
         .open()
         .expect("Open port");
@@ -44,7 +50,10 @@ fn read_port(port_name: String) {
     let mut buffer = [0; 4096];
     let mut residue = Vec::new();
 
-    for i in 0..10 {
+    for i in 0..3 {
+        eprintln!("==================");
+        eprintln!("{:?}", i);
+
         let len = port.read(&mut buffer).expect("Read failed");
         let d = rx::decode(&buffer[..len], &residue);
         match d {
@@ -53,13 +62,13 @@ fn read_port(port_name: String) {
                 eprintln!("f - {:?}", f);
                 residue = r;
             }
-            Err(e) => {
-                eprintln!("Error - {:?}", e);
-            }
+            Err(_) => {} // Err(e) => {}
         }
-        eprintln!("================== {:?}", i);
+
         thread::sleep(Duration::from_millis(64)); // with 64 ms, the read returns about 220~350 bytes
     }
+
+    eprintln!("==================");
 
     let p = tx::base_control_command(1, 1).expect(""); // subtle movement
     port.write(&p).expect("");
