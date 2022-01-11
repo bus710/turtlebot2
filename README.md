@@ -1,6 +1,6 @@
 # turtlebot2
 
-To drive Turtlebot2 a.k.a Kobuki.
+To drive Turtlebot2 (a.k.a Kobuki).
 
 <br/>
 <br/>
@@ -19,7 +19,7 @@ Since the seriaport crate requires some packages:
 $ sudo apt install libudev-dev pkg-config
 ```
 
-Also the user should have be a part of dialout group in Linux:
+Also the user should be in the dialout group of Linux:
 ```sh
 $ sudo adduser ${USER} dialout
 
