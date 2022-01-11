@@ -9,14 +9,15 @@ use turtlebot2::{rx, tx};
 const SERIAL: &str = "kobuki";
 
 fn main() {
+    // Need to check if there are ports available
     let ports = enum_ports().expect("Cannot enumerate ports");
-    let mut found_kobuki = false;
-    let mut found_kobuki_port_name = "";
-
     if ports.len() < 1 {
         panic!("No USB serial devices found")
     }
 
+    // Need to check if there is any port that has serial number with the given string "kobuki"
+    let mut found_kobuki = false;
+    let mut found_kobuki_port_name = "";
     for p in ports.iter() {
         match p.port_type.clone() {
             SerialPortType::UsbPort(info) => {
@@ -30,8 +31,9 @@ fn main() {
         };
     }
 
+    // If there is, read the port and parse the byte stream
     if found_kobuki {
-        read_port(String::from(found_kobuki_port_name));
+        test_port(String::from(found_kobuki_port_name));
     }
 }
 
@@ -40,29 +42,30 @@ fn enum_ports() -> Result<Vec<SerialPortInfo>> {
     Ok(ports)
 }
 
-fn read_port(port_name: String) {
+fn test_port(port_name: String) {
     let mut port = serialport::new(port_name, 115200)
         .open()
-        .expect("Open port");
+        .expect("Openning port failed");
     port.set_timeout(Duration::from_millis(1024))
         .expect("Setting timeout failed");
 
-    let mut buffer = [0; 4096];
-    let mut residue = Vec::new();
-
+    let mut buffer = [0; 4096]; // To read bytes from port
+    let mut residue = Vec::new(); // To keep broken packets between iteration
     for i in 0..3 {
         eprintln!("==================");
-        eprintln!("{:?}", i);
+        eprintln!("Iteration - {:?}", i);
 
         let len = port.read(&mut buffer).expect("Read failed");
         let d = rx::decode(&buffer[..len], &residue);
         match d {
             Ok(v) => {
                 let (f, r) = v;
-                eprintln!("f - {:?}", f);
+                eprintln!("Number of feedbacks found - {:?}", f.len());
                 residue = r;
             }
-            Err(_) => {} // Err(e) => {}
+            Err(_) => {
+                eprintln!("Only broken packet exists")
+            } // Err(e) => {}
         }
 
         thread::sleep(Duration::from_millis(64)); // with 64 ms, the read returns about 220~350 bytes
