@@ -1,16 +1,14 @@
 use std::thread;
 use std::time::Duration;
 
-use anyhow::Result;
-use serialport::{SerialPortInfo, SerialPortType};
-
-use turtlebot2::{rx};
+use serialport::SerialPortType;
+use turtlebot2::rx;
 
 const SERIAL: &str = "kobuki";
 
 fn main() {
     // Need to check if there are ports available
-    let ports = enum_ports().expect("Cannot enumerate ports");
+    let ports = serialport::available_ports().expect("No ports found!");
     if ports.len() < 1 {
         panic!("No USB serial devices found")
     }
@@ -35,11 +33,6 @@ fn main() {
     if found_kobuki {
         test_port(String::from(found_kobuki_port_name));
     }
-}
-
-fn enum_ports() -> Result<Vec<SerialPortInfo>> {
-    let ports = serialport::available_ports().expect("No ports found!");
-    Ok(ports)
 }
 
 fn test_port(port_name: String) {
