@@ -19,7 +19,7 @@ Since the seriaport crate requires some packages:
 $ sudo apt install libudev-dev pkg-config
 ```
 
-Also the user should be in the dialout group of Linux:
+Also the user should be a part of the dialout group in Linux:
 ```sh
 $ sudo adduser ${USER} dialout
 
