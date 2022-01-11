@@ -25,7 +25,7 @@ fn main() {
                     found_kobuki_port_name = &p.port_name;
                 }
             }
-            _ => found_kobuki = false,
+            _ => (),
         };
     }
 
