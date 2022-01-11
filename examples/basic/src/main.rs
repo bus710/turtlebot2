@@ -4,7 +4,7 @@ use std::time::Duration;
 use anyhow::Result;
 use serialport::{SerialPortInfo, SerialPortType};
 
-use turtlebot2::{rx, tx};
+use turtlebot2::{rx};
 
 const SERIAL: &str = "kobuki";
 
@@ -45,9 +45,9 @@ fn enum_ports() -> Result<Vec<SerialPortInfo>> {
 fn test_port(port_name: String) {
     let mut port = serialport::new(port_name, 115200)
         .open()
-        .expect("Openning port failed");
+        .expect("Failed to open the port");
     port.set_timeout(Duration::from_millis(1024))
-        .expect("Setting timeout failed");
+        .expect("Failed to set the timeout");
 
     let mut buffer = [0; 4096]; // To read bytes from port
     let mut residue = Vec::new(); // To keep broken packets between iteration
@@ -64,7 +64,7 @@ fn test_port(port_name: String) {
                 residue = r;
             }
             Err(_) => {
-                eprintln!("Only broken packet exists")
+                eprintln!("Found a broken packet only")
             } // Err(e) => {}
         }
 
@@ -73,11 +73,9 @@ fn test_port(port_name: String) {
 
     eprintln!("==================");
 
-    let p = tx::base_control_command(1, 1).expect(""); // subtle movement
-    port.write(&p).expect("");
-
-    thread::sleep(Duration::from_millis(100));
-
-    let p = tx::base_control_command(0, 0).expect(""); // stop
-    port.write(&p).expect("");
+    // let p = tx::base_control_command(1, 1).expect(""); // subtle movement
+    // port.write(&p).expect("");
+    // thread::sleep(Duration::from_millis(100));
+    // let p = tx::base_control_command(0, 0).expect(""); // stop
+    // port.write(&p).expect("");
 }
