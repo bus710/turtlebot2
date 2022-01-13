@@ -23,6 +23,7 @@ fn main() {
                     eprintln!("Found port: {:?} - {:?}", p.port_name, p);
                     found_kobuki = true;
                     found_kobuki_port_name = &p.port_name;
+                    break;
                 }
             }
             _ => (),
