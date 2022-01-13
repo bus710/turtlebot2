@@ -14,7 +14,7 @@ To drive Turtlebot2 (a.k.a Kobuki).
 
 ## Prerequisites
 
-Since the seriaport crate requires some packages:
+Since the serialport crate requires some packages:
 ```sh
 $ sudo apt install libudev-dev pkg-config
 ```
@@ -32,7 +32,7 @@ $ sudo usermod -aG dialout ${USER}
 
 ## Demo
 
-A demo shows the basic usage of this crate:
+A demo shows the basic usage of this crate (only tested in Linux!):
 ```sh
 $ cd examples/basic
 $ cargo run
