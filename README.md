@@ -30,3 +30,10 @@ $ sudo usermod -aG dialout ${USER}
 
 <br/>
 
+## Demo
+
+A demo shows the basic usage of this crate:
+```sh
+$ cd examples/basic
+$ cargo run
+```
