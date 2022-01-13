@@ -1,13 +1,13 @@
 [package]
 authors = ["bus710"]
-categories = ["robotics", "robot"]
+categories = ["embedded"]
 description = "To drive Turtlebot2 (a.k.a Kobuki)."
 edition = "2021"
 license = "MIT"
 name = "turtlebot2"
 readme = "README.md"
 repository = "https://github.com/bus710/turtlebot2"
-version = "0.1.0"
+version = "0.1.1"
 
 [lib]
 crate-type = ["lib"]
