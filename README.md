@@ -1,6 +1,6 @@
 # turtlebot2
 
-To drive Turtlebot2 (a.k.a Kobuki).
+A Rust [crate](https://crates.io/crates/turtlebot2) to drive Turtlebot2 (a.k.a Kobuki).
 
 <br/>
 <br/>
