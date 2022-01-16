@@ -45,7 +45,7 @@ fn test_port(port_name: String) {
 
     let mut buffer = [0; 4096]; // To read bytes from port
     let mut residue = Vec::new(); // To keep broken packets between iteration
-    for i in 0..3 {
+    for i in 0..1024 {
         eprintln!("==================");
         eprintln!("Iteration - {:?}", i);
 
@@ -57,9 +57,9 @@ fn test_port(port_name: String) {
                 eprintln!("Number of feedbacks found - {:?}", f.len());
                 residue = r;
             }
-            Err(_) => {
-                eprintln!("Found a broken packet only")
-            } // Err(e) => {}
+            Err(e) => {
+                eprintln!("{:?}", e)
+            }
         }
 
         thread::sleep(Duration::from_millis(64)); // with 64 ms, the read returns about 220~350 bytes

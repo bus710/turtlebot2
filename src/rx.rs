@@ -268,9 +268,17 @@ fn divide_packet(buffer: &[u8], headers: &[usize]) -> Result<Vec<Vec<u8>>> {
 }
 
 fn check_crc(packet: &Vec<u8>) -> bool {
-    // Broken packet, most likely.
+    // Don't even have preambles and total length.
     let packet_len = packet.len();
-    if packet_len < 81 {
+    if packet_len < 3 {
+        return false;
+    }
+
+    // if given packet length is NOT same as 
+    // the total_len + preambles (2) + length byte (1) + checksum byte (1),
+    // it is broken packet
+    let total_len = packet[2].clone() as usize;
+    if packet_len != total_len + 4 {
         return false;
     }
 
