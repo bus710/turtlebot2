@@ -39,7 +39,7 @@ pub const FDB_SIZE_GENERAL_PURPOSE_OUTPUT: u8 = 16;
 pub const FDB_SIZE_UNIQUE_DEVICE_IDENTIFIER: u8 = 12;
 pub const FDB_SIZE_CONTROLLER_INFO: u8 = 13;
 
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct Feedback {
     #[derivative(Default(value = "0"))]
@@ -57,7 +57,7 @@ pub struct Feedback {
     pub controller_info: ControllerInfo,
 }
 
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct BasicSensor {
     pub valid: bool,
@@ -75,7 +75,7 @@ pub struct BasicSensor {
     pub overcurrent_flags: u8,
 }
 
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct DockingIR {
     pub valid: bool,
@@ -83,14 +83,14 @@ pub struct DockingIR {
     pub central_signal: u8,
     pub left_signal: u8,
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct InertialSensor {
     pub valid: bool,
     pub angle: u16,
     pub angle_rate: u16,
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct Cliff {
     pub valid: bool,
@@ -98,14 +98,14 @@ pub struct Cliff {
     pub central_cliff_sensor: u16,
     pub left_cliff_sensor: u16,
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct Current {
     pub valid: bool,
     pub left_motor: u8,
     pub right_motor: u8,
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct HardwareVersion {
     pub valid: bool,
@@ -113,7 +113,7 @@ pub struct HardwareVersion {
     pub minor: u8,
     pub major: u8,
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct FirmwareVersion {
     pub valid: bool,
@@ -121,7 +121,7 @@ pub struct FirmwareVersion {
     pub minor: u8,
     pub major: u8,
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct Gyro {
     pub valid: bool,
@@ -129,7 +129,7 @@ pub struct Gyro {
     pub followed_data_length: u8,
     pub raw_gyro_data: [RawGyro; 3],
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct RawGyro {
     pub valid: bool,
@@ -137,7 +137,7 @@ pub struct RawGyro {
     pub y: u16,
     pub z: u16,
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct GeneralPurposeInput {
     pub valid: bool,
@@ -147,7 +147,7 @@ pub struct GeneralPurposeInput {
     pub a_ch2: u16,
     pub a_ch3: u16,
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct UniqueDeviceId {
     pub valid: bool,
@@ -155,7 +155,7 @@ pub struct UniqueDeviceId {
     pub udid1: u32,
     pub udid2: u32,
 }
-#[derive(Debug, Derivative)]
+#[derive(Debug, Clone, Derivative)]
 #[derivative(Default)]
 pub struct ControllerInfo {
     pub valid: bool,
